@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+
+</head>
+<body>
+
+    <augean-registry>
+        <template is="augean-input-field"
+                  property="http://wykop.pgs-soft.com/vocab#SubmitLinkCommand/uri">
+            <input type="url" required$="[[property.required]]" />
+        </template>
+    </augean-registry>
+
+    <augean-form id="form"></augean-form>
+
+    <script>
+
+        var form = document.querySelector('#form');
+
+        form.operation = {
+            
+        }
+
+    </script>
+</body>
+</html>
