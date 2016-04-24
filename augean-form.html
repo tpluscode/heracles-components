@@ -1,0 +1,50 @@
+<link rel="import" href="augean-registry.html" />
+
+<dom-module id="augean-form">
+    <template>
+        <form>
+            <fieldset id="fields">
+            </fieldset>
+            <input type="submit">
+        </form>
+    </template>
+</dom-module>
+
+<script>
+
+    Polymer({
+        is: 'augean-form',
+        behaviors: [Polymer.Templatizer, AugeanRegistry],
+        properties: {
+            operation: {
+                type: Object
+            }
+        },
+        attached: function(){
+
+            this.listen(this, 'dupa', function () {
+                console.log(arguments);
+            })
+
+        },
+        observers: [
+            '_redrawFields(operation, fieldTemplates.*)'
+        ],
+        _redrawFields: function (operation, fieldTemplates) {
+            //Polymer.dom(this.$.fields).clear();
+
+            for (var i = 0; i < operation.fields.length; i++) {
+                var template = this.getTemplate[operation.fields[i]];
+
+                if (template) {
+
+                    this.templatize(template);
+
+                    var itemNode = this.stamp();
+                    Polymer.dom(this.$.fields).appendChild(itemNode.root);
+                }
+            }
+        }
+    });
+
+</script>

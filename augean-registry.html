@@ -1,0 +1,35 @@
+<script>
+
+    var reg = {
+    };
+
+    AugeanRegistry = {
+        properties: {
+            fieldTemplates: {
+                type: Object,
+                notify: true,
+                value: reg
+            }
+        },
+
+        getTemplate: function (field) {
+            return this.fieldTemplates[field.property];
+        }
+    };
+
+    Polymer({
+        is: 'augean-registry',
+        behaviors: [AugeanRegistry],
+        attached: function () {
+            Polymer.dom(this).observeNodes(function (info) {
+                for (var i = 0; i < info.addedNodes.length; i++) {
+                    var node = info.addedNodes[i];
+                    if (node.nodeName === '#text') continue;
+
+                    this.fieldTemplates[node.getAttribute('property')] = node;
+                }
+            });
+        }
+    });
+
+</script>
