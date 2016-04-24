@@ -28,6 +28,8 @@
 
                     this.fieldTemplates[node.getAttribute('property')] = node;
                 }
+
+                this.fire('augean-fields', {}, { bubles: true });
             });
         }
     });

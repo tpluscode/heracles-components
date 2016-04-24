@@ -17,31 +17,34 @@
         behaviors: [Polymer.Templatizer, AugeanRegistry],
         properties: {
             operation: {
-                type: Object
+                type: Object,
+                observer: '_redrawFields'
             }
         },
-        attached: function(){
-
-            this.listen(this, 'dupa', function () {
-                console.log(arguments);
-            })
-
+        attached() {
+            document.addEventListener('augean-fields', function() {
+                this._redrawFields(this.operation);
+            }.bind(this));
         },
-        observers: [
-            '_redrawFields(operation, fieldTemplates.*)'
-        ],
-        _redrawFields: function (operation, fieldTemplates) {
-            //Polymer.dom(this.$.fields).clear();
+        _redrawFields: function (operation) {
+            var children = Polymer.dom(this.$.fields).children;
+            for (var i = 0; i < children.length; i++) {
+                Polymer.dom(this.$.fields).removeChild(children[i]);
+            }
 
             for (var i = 0; i < operation.fields.length; i++) {
-                var template = this.getTemplate[operation.fields[i]];
+                var template = this.getTemplate(operation.fields[i]);
 
                 if (template) {
 
                     this.templatize(template);
 
-                    var itemNode = this.stamp();
+                    var itemNode = this.stamp({ property: operation.fields[i] });
                     Polymer.dom(this.$.fields).appendChild(itemNode.root);
+                } else {
+                    var div = document.createElement('div');
+                    div.textContent = 'Unknown element';
+                    Polymer.dom(this.$.fields).appendChild(div);
                 }
             }
         }

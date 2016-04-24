@@ -10,7 +10,8 @@
     <augean-registry id="registry">
         <template is="augean-input-field"
                   property="http://wykop.pgs-soft.com/vocab#SubmitLinkCommand/uri">
-            <input type="url" required$="[[property.required]]" value="{{field.value::input}}" />
+            <label for="uri" >[[property.property]]</label>
+            <input id="uri" type="url" required$="[[property.required]]" value="{{field.value::input}}" />
         </template>
     </augean-registry>
 
@@ -20,14 +21,14 @@
 
         var form = document.querySelector('#form');
 
-        document.querySelector('#registry').addEventListener('field-templates-changed', function() {
-            debugger;
-        })
-
         form.operation = {
               fields: [
                   {
                       property: 'http://wykop.pgs-soft.com/vocab#SubmitLinkCommand/uri',
+                      required: true
+                  },
+                  {
+                      property: 'http://wykop.pgs-soft.com/vocab#SubmitLinkCommand/wtf',
                       required: true
                   }
               ]
